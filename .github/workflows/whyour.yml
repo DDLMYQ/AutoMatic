@@ -7,6 +7,11 @@ on:
     types: started
   repository_dispatch:
     types: sync-whyour-qinglong
+    
+env:
+  SERVERCHAN_SCKEY="true" 
+  TZ: Asia/Shanghai
+  
 jobs:
   repo-sync:
     env:
@@ -31,6 +36,7 @@ jobs:
           source_branch: "develop"
           destination_branch: "whyour"
           github_token: ${{ secrets.PAT }}
+          
       - name: 电报通知
         if: steps.organizer.outputs.status == 'success' && env.SERVERCHAN_SCKEY == 'true'
         run: |
