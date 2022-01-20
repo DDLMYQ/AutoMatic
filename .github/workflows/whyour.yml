@@ -26,10 +26,3 @@ jobs:
           source_branch: "develop"
           destination_branch: "whyour"
           github_token: ${{ secrets.PAT }}
-          
-          
-      - name: 电报通知
-        if: env.SERVERCHAN_SCKEY == 'true'
-        if: steps.organizer.outputs.status == 'success' && env.SERVERCHAN_SCKEY == 'true'
-        run: |
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您仓库青龙已经同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
