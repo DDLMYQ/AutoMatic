@@ -9,7 +9,6 @@ on:
     types: sync-whyour-qinglong
     
 env:
-  SERVERCHAN_SCKEY="true" 
   TZ: Asia/Shanghai
   
 jobs:
