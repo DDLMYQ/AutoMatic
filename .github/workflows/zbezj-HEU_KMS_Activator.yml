@@ -11,13 +11,19 @@ jobs:
   repo-sync:
     env:
       PAT: ${{ secrets.PAT }} 
+      SERVERCHAN_SCKEY: true
+      TZ: Asia/Shanghai
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
-
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：开始为您同步whyour-qinglong仓库,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+       
       - name: sync zbezj-HEU_KMS_Activator
         uses: repo-sync/github-sync@v2
         if: env.PAT
@@ -26,3 +32,9 @@ jobs:
           source_branch: "master"
           destination_branch: "zbezj"
           github_token: ${{ secrets.PAT }}
+          
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您同步的whyour-qinglong仓库顺利同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+
