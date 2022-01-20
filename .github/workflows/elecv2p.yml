@@ -1,0 +1,41 @@
+name: 同步elecV2-elecV2P仓库
+on:
+  schedule:
+    - cron: '30 */8 * * *'
+  workflow_dispatch:
+  watch:
+    types: started
+  repository_dispatch:
+    types: sync-elecV2-elecV2P
+    
+env:
+  PAT: ${{ secrets.PAT }} 
+  SERVERCHAN_SCKEY: true
+  TZ: Asia/Shanghai  
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：开始为您同步elecV2-elecV2P仓库,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+       
+      - name: sync elecV2-elecV2P
+        uses: repo-sync/github-sync@v2
+        if: env.PAT
+        with:
+          source_repo: "https://github.com/elecV2/elecV2P.git"
+          source_branch: "master"
+          destination_branch: "elecV2"
+          github_token: ${{ secrets.PAT }}
+          
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您同步的elecV2-elecV2P仓库顺利同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
