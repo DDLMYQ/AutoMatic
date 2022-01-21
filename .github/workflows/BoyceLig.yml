@@ -1,0 +1,41 @@
+name: 同步BoyceLig-Clash_Chinese_Patch仓库
+on:
+  schedule:
+    - cron: '30 */8 * * *'
+  workflow_dispatch:
+  watch:
+    types: started
+  repository_dispatch:
+    types: sync-BoyceLig-Clash_Chinese_Patch
+  
+jobs:
+  repo-sync:
+    env:
+      PAT: ${{ secrets.PAT }} 
+      SERVERCHAN_SCKEY: true
+      TZ: Asia/Shanghai
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：开始为您同步BoyceLig-Clash_Chinese_Patch仓库,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+       
+      - name: sync BoyceLig-Clash_Chinese_Patch
+        uses: repo-sync/github-sync@v2
+        if: env.PAT
+        with:
+          source_repo: "https://github.com/BoyceLig/Clash_Chinese_Patch.git"
+          source_branch: "main"
+          destination_branch: "BoyceLig"
+          github_token: ${{ secrets.PAT }}
+          
+      - name: 电报通知
+        if: env.SERVERCHAN_SCKEY == 'true'
+        run: |
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您同步的BoyceLig-Clash_Chinese_Patch仓库顺利同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
