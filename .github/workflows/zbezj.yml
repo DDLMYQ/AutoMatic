@@ -1,4 +1,4 @@
-name: 同步zbezj-HEU_KMS_Activator仓库
+name: 同步zbezj-Windows激活工具仓库
 on:
   schedule:
     - cron: '30 */8 * * *'
