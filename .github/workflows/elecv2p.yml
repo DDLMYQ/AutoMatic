@@ -1,7 +1,7 @@
 name: 同步elecV2-elecV2P仓库
 on:
   schedule:
-    - cron: '30 */8 * * *'
+    - cron: '5 10 */5 * *'
   workflow_dispatch:
   watch:
     types: started
