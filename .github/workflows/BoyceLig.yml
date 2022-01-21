@@ -7,7 +7,7 @@ on:
     types: started
   repository_dispatch:
     types: sync-BoyceLig-Clash_Chinese_Patch
-  
+   
 jobs:
   repo-sync:
     env:
