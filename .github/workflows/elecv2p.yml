@@ -7,7 +7,7 @@ on:
     types: started
   repository_dispatch:
     types: sync-elecV2-elecV2P
-    
+     
 env:
   PAT: ${{ secrets.PAT }} 
   SERVERCHAN_SCKEY: true
