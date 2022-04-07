@@ -1,4 +1,4 @@
-name: 同步k1995-github-i18n-plugin仓库
+name: 同步k1995-GitHub油猴汉化插件仓库
 on:
   schedule:
     - cron: '5 10 */5 * *'
