@@ -1,4 +1,4 @@
-name: 同步ddgksf2013-Cuttlefish圈X重写仓库
+name: 同步ddgksf2013-Rewrite仓库
 on:
   schedule:
     - cron: '5 10 */5 * *'
@@ -6,7 +6,7 @@ on:
   watch:
     types: started
   repository_dispatch:
-    types: sync-ddgksf2013-Cuttlefish
+    types: sync-ddgksf2013-Rewrite
      
 env:
   PAT: ${{ secrets.PAT }} 
@@ -24,13 +24,13 @@ jobs:
       - name: 电报通知
         if: env.SERVERCHAN_SCKEY == 'true'
         run: |
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：开始为您同步ddgksf2013-Cuttlefish仓库,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：开始为您同步ddgksf2013-Rewrite仓库,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
        
-      - name: sync ddgksf2013-Cuttlefish
+      - name: sync ddgksf2013-Rewrite
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/ddgksf2013/Cuttlefish.git"
+          source_repo: "https://github.com/ddgksf2013/Rewrite.git"
           source_branch: "master"
           destination_branch: "ddgksf2013"
           github_token: ${{ secrets.PAT }}
@@ -38,4 +38,4 @@ jobs:
       - name: 电报通知
         if: env.SERVERCHAN_SCKEY == 'true'
         run: |
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您同步的ddgksf2013-Cuttlefish仓库顺利同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您同步的ddgksf2013-Rewrite仓库顺利同步完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
